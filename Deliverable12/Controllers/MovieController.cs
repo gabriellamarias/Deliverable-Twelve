@@ -53,15 +53,19 @@ namespace Deliverable12.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("ID", "Title", "Genre", "Year", "Actor", "Director")]Movie newMovie)
         {
-            try
+            if (ModelState.IsValid)
             {
-                TempMovieData.Movies.Add(newMovie);
-                return RedirectToAction(nameof(UpdatedIndex), newMovie);
+                try
+                {
+                    TempMovieData.Movies.Add(newMovie);
+                    return RedirectToAction(nameof(UpdatedIndex), newMovie);
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: MovieController/Edit/5
